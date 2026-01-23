@@ -1,10 +1,16 @@
-from redis_queue import push_task
+import uuid
+from redis_queue import push_task, set_job_status
 
 if __name__ == "__main__":
+
+    job_id = str(uuid.uuid4())
     job = {
+        "job_id": job_id,
         "language": "python",
         "code": 'print("Hello from the producer!")'
     }
-
+    
+    set_job_status(job_id, "queued")
     push_task(job)
-    print("Job pushed to the queue.")
+    
+    print(f"Submitted job: {job_id}")

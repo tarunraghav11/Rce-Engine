@@ -27,3 +27,17 @@ def pop_task():
         _, data = task
         return json.loads(data)
     return None
+
+def set_job_status(job_id: str, status: str , output: str = None):
+    key = f"job:{job_id}"
+    redis_client.hset(key, mapping={
+        "status": status,
+        "output": output if output is not None else ""
+    })
+
+def get_job_status(job_id: str):
+    key = f"job:{job_id}"
+
+    if redis_client.exists(key):
+        return redis_client.hgetall(key)
+    return None

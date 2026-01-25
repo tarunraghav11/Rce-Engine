@@ -1,8 +1,10 @@
 import redis
 import json
+import os
 
-REDIS_HOST = "localhost"
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = 6379
+
 QUEUE_NAME = "code_tasks"
 
 redis_client = redis.Redis(

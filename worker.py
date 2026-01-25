@@ -1,5 +1,7 @@
 from redis_queue import pop_task, set_job_status
 from executor import execute_code
+from db import SessionLocal, Job
+from datetime import datetime, timezone
 
 print("Worker started. Waiting for jobs...")
 
@@ -12,15 +14,22 @@ while True:
     job_id = task["job_id"]
     code = task["code"]
 
-    print(f"Picked up job {job_id}")
+    db = SessionLocal()
+    job = db.query(Job).filter(Job.id == job_id).first()
 
-    set_job_status(job_id, "running")
+    if not job:
+        db.close()
+        continue
+
+    job.status = "running"
+    db.commit()
 
     result = execute_code(code)
 
-    if result["status"] == "success":
-        set_job_status(job_id, "success", result["output"])
-    else:
-        set_job_status(job_id, "error", result["output"])
+    job.status = result["status"]
+    job.output = result["output"]
+    job.completed_at = datetime.now(timezone.utc)
+    db.commit()
+    db.close()
 
     print(f"Finished job {job_id}")

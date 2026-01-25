@@ -7,7 +7,7 @@ if __name__ == "__main__":
     job = {
         "job_id": job_id,
         "language": "python",
-        "code": 'print("Hello from the producer!")'
+        "code": 'while True : pass'
     }
     
     set_job_status(job_id, "queued")

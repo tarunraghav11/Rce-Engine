@@ -17,3 +17,21 @@ Execution results are stored in PostgreSQL
 The frontend polls for job status updates
 
 The system is designed with security, scalability, and isolation as core principles
+
+🧠 Features Implemented
+
+Asynchronous job submission
+
+Status tracking (queued → running → success/failed)
+
+Secure containerized execution
+
+Resource-limited execution environment
+
+Automatic DB initialization on startup
+
+Input validation for empty code
+
+Clean frontend with real-time polling
+
+Graceful handling of DB startup race conditions

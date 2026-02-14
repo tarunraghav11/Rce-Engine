@@ -1,5 +1,5 @@
 import uuid
-from redis_queue import push_task, set_job_status
+from backend.redis_queue import push_task, set_job_status
 
 if __name__ == "__main__":
 
